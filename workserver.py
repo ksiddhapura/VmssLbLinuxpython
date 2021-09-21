@@ -9,7 +9,6 @@ import time
 from bottle import route, run
 
 hostname = socket.gethostname()
-#hostport = 9000
 hostport = 7000
 keepworking = False  # boolean to switch worker thread on or off
 
@@ -20,7 +19,7 @@ def workerthread():
     while (True):
         # main loop to thrash the CPI
         while (keepworking == True):
-            for x in range(101, 500):
+            for x in range(69, 100):
                 math.factorial(x)
         time.sleep(3)
 
@@ -48,9 +47,6 @@ def writebody():
 
 @route('/')
 def root():
-    global keepworking
-    # start worker thread
-    keepworking = True
     return writebody()
 
 
