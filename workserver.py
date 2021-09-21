@@ -9,7 +9,8 @@ import time
 from bottle import route, run
 
 hostname = socket.gethostname()
-hostport = 9000
+#hostport = 9000
+hostport = 7000
 keepworking = False  # boolean to switch worker thread on or off
 
 
@@ -19,7 +20,7 @@ def workerthread():
     while (True):
         # main loop to thrash the CPI
         while (keepworking == True):
-            for x in range(1, 69):
+            for x in range(101, 500):
                 math.factorial(x)
         time.sleep(3)
 
@@ -30,26 +31,31 @@ worker_thread.start()
 
 
 def writebody():
+   # body = '<html><head><title>Work interface - build</title></head>'
+   # body += '<body><h2>Worker interface on ' + hostname + '</h2><ul><h3>'
     body = '<html><head><title>Work interface - build</title></head>'
-    body += '<body><h2>Worker interface on ' + hostname + '</h2><ul><h3>'
+    body += '<body><h2>Hello World, I am one of the Virtual Machine my name is:' + hostname + '</h2><ul><h3>'
 
     if keepworking == False:
-        body += '<br/>Worker thread is not running. <a href="./do_work">Start work</a><br/>'
+        body += '<br/>Worker thread is not running. <a href="./start_work">Start work</a><br/>'
     else:
         body += '<br/>Worker thread is running. <a href="./stop_work">Stop work</a><br/>'
 
-    body += '<br/>Usage:<br/><br/>/do_work = start worker thread<br/>/stop_work = stop worker thread<br/>'
+    body += '<br/>Usage:<br/><br/>/start_work = start worker thread<br/>/stop_work = stop worker thread<br/>'
     body += '</h3></ul></body></html>'
     return body
 
 
 @route('/')
 def root():
+    global keepworking
+    # start worker thread
+    keepworking = True
     return writebody()
 
 
-@route('/do_work')
-def do_work():
+@route('/start_work')
+def start_work():
     global keepworking
     # start worker thread
     keepworking = True
