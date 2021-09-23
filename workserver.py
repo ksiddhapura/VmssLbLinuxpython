@@ -9,7 +9,7 @@ import time
 from bottle import route, run
 
 hostname = socket.gethostname()
-hostport = 80
+hostport = 7000
 keepworking = False  # boolean to switch worker thread on or off
 
 
